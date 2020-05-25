@@ -6,3 +6,6 @@ hps_sdram_p0*
 *.bak
 *.sopcinfo
 .qsys_edit
+simulation
+hps_isw_handoff
+c5_pin_model_dump.txt
