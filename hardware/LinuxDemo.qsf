@@ -25,7 +25,7 @@ set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 
 # 50 MHz Clock
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to FPGA_CLK1_50
-set_location_assignment PIN_E11 -to FPGA_CLK3_50
+set_location_assignment PIN_E11 -to FPGA_CLK1_50
 
 # LED
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to LED[0]
