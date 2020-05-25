@@ -26,3 +26,8 @@ echo "----------------- Quartus Compile --------------------"
 echo "======================================================"
 quartus_sh --flow compile $TOP
 quartus_cpf -c output_files/$SOF output_files/$RBF
+
+echo "======================================================"
+echo "------------------ Fitter Summary --------------------"
+echo "======================================================"
+cat output_files/$TOP.fit.summary
