@@ -1,0 +1,8 @@
+output_files
+soc_system
+db
+incremental_db
+hps_sdram_p0*
+*.bak
+*.sopcinfo
+.qsys_edit
