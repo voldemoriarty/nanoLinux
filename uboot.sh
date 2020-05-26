@@ -14,6 +14,7 @@ SETTINGS=settings.bsp
 QTSFILTER=$BOOTLOADERDIR/uboot/arch/arm/mach-socfpga/qts-filter.sh
 BOARD=terasic/de10-nano  
 UBOOT_CFG=socfpga_de10_nano_defconfig
+BINDIR=binaries
 
 # the path of the cross compiler
 # make sure this is it
@@ -25,9 +26,13 @@ if [ ! -d "$BOOTLOADERDIR/uboot" ]; then
   echo "Bootloader directory does not exist, downloading from git"
   # create directory for uboot
   mkdir -p $BOOTLOADERDIR/uboot
+  mkdir -p $BOOTLOADERDIR/binaries
 
   # download uboot, don't download the history
   git clone https://github.com/altera-opensource/u-boot-socfpga --depth=1 $BOOTLOADERDIR/uboot
+  
+  # sanity check
+  make -C $BOOTLOADERDIR/uboot distclean
 else 
   echo "Bootloader directory exists, skipping download ..."
 fi 
@@ -55,6 +60,10 @@ $QTSFILTER \
   $BOOTLOADERDIR/uboot/board/$BOARD/qts/
 
 echo "Building uboot"
-make -C $BOOTLOADERDIR/uboot distclean
 make -C $BOOTLOADERDIR/uboot $UBOOT_CFG 
 make -C $BOOTLOADERDIR/uboot -j$(nproc)
+
+# copy the executables
+cp -v $BOOTLOADERDIR/uboot/spl/u-boot-spl $BOOTLOADERDIR/$BINDIR/
+cp -v $BOOTLOADERDIR/uboot/u-boot $BOOTLOADERDIR/$BINDIR/
+cp -v $BOOTLOADERDIR/uboot/u-boot-with-spl.sfp $BOOTLOADERDIR/$BINDIR/
