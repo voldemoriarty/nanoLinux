@@ -1,1 +1,4 @@
 bootloader
+rootfs
+sdfs
+*.img
