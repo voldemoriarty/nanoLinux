@@ -1,4 +1,8 @@
 #!/bin/bash
+echo "====================="
+echo "Creating sdcard image"
+echo "====================="
+
 
 sudo ./make_sdimage_p3.py -f \
 -P $BOOTLOADERDIR/$BINDIR/u-boot-with-spl.sfp,num=3,format=raw,size=10M,type=A2  \
