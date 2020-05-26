@@ -15,6 +15,7 @@ QTSFILTER=$BOOTLOADERDIR/uboot/arch/arm/mach-socfpga/qts-filter.sh
 BOARD=terasic/de10-nano  
 UBOOT_CFG=socfpga_de10_nano_defconfig
 BINDIR=binaries
+RBF=LinuxDemo.rbf 
 
 # the path of the cross compiler
 # make sure this is it
@@ -35,6 +36,15 @@ if [ ! -d "$BOOTLOADERDIR/uboot" ]; then
   make -C $BOOTLOADERDIR/uboot distclean
 else 
   echo "Bootloader directory exists, skipping download ..."
+fi 
+
+if [ ! -d "rootfs" ]; then 
+  mkdir rootfs 
+  touch rootfs/foo 
+fi 
+
+if [ ! -d "sdfs" ]; then 
+  mkdir sdfs 
 fi 
 
 # create the settings from the Qsys generated handoff
@@ -67,3 +77,15 @@ make -C $BOOTLOADERDIR/uboot -j$(nproc)
 cp -v $BOOTLOADERDIR/uboot/spl/u-boot-spl $BOOTLOADERDIR/$BINDIR/
 cp -v $BOOTLOADERDIR/uboot/u-boot $BOOTLOADERDIR/$BINDIR/
 cp -v $BOOTLOADERDIR/uboot/u-boot-with-spl.sfp $BOOTLOADERDIR/$BINDIR/
+cp -v $HWDIR/output_files/$RBF sdfs 
+
+# create image
+echo "====================="
+echo "Creating sdcard image"
+echo "====================="
+
+sudo ./make_sdimage_p3.py -f \
+-P $BOOTLOADERDIR/$BINDIR/u-boot-with-spl.sfp,num=3,format=raw,size=10M,type=A2  \
+-P sdfs,num=1,format=vfat,size=200M \
+-s 500M \
+-n sdcard_cv.img
