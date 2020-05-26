@@ -34,6 +34,12 @@ if [ ! -d "$BOOTLOADERDIR/uboot" ]; then
   
   # sanity check
   make -C $BOOTLOADERDIR/uboot distclean
+
+  # update config to run u-boot.scr on boot
+  # not sure if this is the best way to do it
+  # but it gets it done
+  echo "CONFIG_USE_BOOTCOMMAND=y" >> $BOOTLOADERDIR/uboot/configs/$UBOOT_CFG 
+  echo "CONFIG_BOOTCOMMAND=\"run fatscript\"" >> $BOOTLOADERDIR/uboot/configs/$UBOOT_CFG 
 else 
   echo "Bootloader directory exists, skipping download ..."
 fi 
@@ -78,3 +84,15 @@ cp -v $BOOTLOADERDIR/uboot/spl/u-boot-spl $BOOTLOADERDIR/$BINDIR/
 cp -v $BOOTLOADERDIR/uboot/u-boot $BOOTLOADERDIR/$BINDIR/
 cp -v $BOOTLOADERDIR/uboot/u-boot-with-spl.sfp $BOOTLOADERDIR/$BINDIR/
 cp -v $HWDIR/output_files/$RBF sdfs 
+
+# create the compiled uboot script
+./$BOOTLOADERDIR/uboot/tools/mkimage \
+ -A arm \
+ -O linux \
+ -T script \
+ -C none \
+ -a 0 \
+ -e 0 \
+ -n DE10-Nano-Script \
+ -d u-boot.script \
+ sdfs/u-boot.scr

@@ -1,0 +1,11 @@
+# uboot script
+# in this uboot version, fpgadata variable does not exist
+# in the environment. So make it urself
+
+fpgadata=0x2000000
+rbf=LinuxDemo.rbf
+led=0xFF200010 
+fatload mmc 0:1 $fpgadata $rbf 
+fpga load 0 $fpgadata $filesize
+bridge enable
+mw.w $led 0x55 1
