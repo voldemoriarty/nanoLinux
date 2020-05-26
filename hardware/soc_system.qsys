@@ -101,7 +101,7 @@
    internal="dipSwitchesPIO.external_connection"
    type="conduit"
    dir="end" />
- <module name="clk50" kind="clock_source" version="16.0" enabled="1">
+ <module name="clk50" kind="clock_source" version="19.1" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
   <parameter name="inputClockFrequency" value="0" />
@@ -110,7 +110,7 @@
  <module
    name="dipSwitchesPIO"
    kind="altera_avalon_pio"
-   version="16.0"
+   version="19.1"
    enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />
@@ -125,7 +125,7 @@
   <parameter name="simDrivenValue" value="0" />
   <parameter name="width" value="4" />
  </module>
- <module name="hps" kind="altera_hps" version="16.0" enabled="1">
+ <module name="hps" kind="altera_hps" version="19.1" enabled="1">
   <parameter name="ABSTRACT_REAL_COMPARE_TEST" value="false" />
   <parameter name="ABS_RAM_MEM_INIT_FILENAME" value="meminit" />
   <parameter name="ACV_PHY_CLK_ADD_FR_PHASE" value="0.0" />
@@ -258,7 +258,6 @@
   <parameter name="FPGA_PERIPHERAL_INPUT_CLOCK_FREQ_I2C1_SCL_IN" value="100" />
   <parameter name="FPGA_PERIPHERAL_INPUT_CLOCK_FREQ_I2C2_SCL_IN" value="100" />
   <parameter name="FPGA_PERIPHERAL_INPUT_CLOCK_FREQ_I2C3_SCL_IN" value="100" />
-  <parameter name="FPGA_PERIPHERAL_INPUT_CLOCK_FREQ_SDIO_CLK_IN" value="100" />
   <parameter name="FPGA_PERIPHERAL_INPUT_CLOCK_FREQ_SPIS0_SCLK_IN" value="100" />
   <parameter name="FPGA_PERIPHERAL_INPUT_CLOCK_FREQ_SPIS1_SCLK_IN" value="100" />
   <parameter name="FPGA_PERIPHERAL_INPUT_CLOCK_FREQ_USB0_CLK_IN" value="100" />
@@ -656,7 +655,7 @@
   <parameter name="usb_mp_clk_div" value="0" />
   <parameter name="use_default_mpu_clk" value="true" />
  </module>
- <module name="ledPIO" kind="altera_avalon_pio" version="16.0" enabled="1">
+ <module name="ledPIO" kind="altera_avalon_pio" version="19.1" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />
   <parameter name="captureEdge" value="false" />
@@ -672,7 +671,7 @@
  </module>
  <connection
    kind="avalon"
-   version="16.0"
+   version="19.1"
    start="hps.h2f_lw_axi_master"
    end="ledPIO.s1">
   <parameter name="arbitrationPriority" value="1" />
@@ -681,37 +680,37 @@
  </connection>
  <connection
    kind="avalon"
-   version="16.0"
+   version="19.1"
    start="hps.h2f_lw_axi_master"
    end="dipSwitchesPIO.s1">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
- <connection kind="clock" version="16.0" start="clk50.clk" end="ledPIO.clk" />
+ <connection kind="clock" version="19.1" start="clk50.clk" end="ledPIO.clk" />
  <connection
    kind="clock"
-   version="16.0"
+   version="19.1"
    start="clk50.clk"
    end="dipSwitchesPIO.clk" />
  <connection
    kind="clock"
-   version="16.0"
+   version="19.1"
    start="clk50.clk"
    end="hps.h2f_lw_axi_clock" />
  <connection
    kind="reset"
-   version="16.0"
+   version="19.1"
    start="clk50.clk_reset"
    end="ledPIO.reset" />
  <connection
    kind="reset"
-   version="16.0"
+   version="19.1"
    start="clk50.clk_reset"
    end="dipSwitchesPIO.reset" />
  <connection
    kind="reset"
-   version="16.0"
+   version="19.1"
    start="hps.h2f_reset"
    end="clk50.clk_in_reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
