@@ -13,3 +13,4 @@ c5_pin_model_dump.txt
 ip_upgrade_port_diff_reports
 *.rpt 
 *_assignment_defaults.qdf
+*.qws
