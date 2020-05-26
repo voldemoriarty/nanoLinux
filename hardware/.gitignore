@@ -4,8 +4,12 @@ db
 incremental_db
 hps_sdram_p0*
 *.bak
+*.BAK*
 *.sopcinfo
 .qsys_edit
 simulation
 hps_isw_handoff
 c5_pin_model_dump.txt
+ip_upgrade_port_diff_reports
+*.rpt 
+*_assignment_defaults.qdf
