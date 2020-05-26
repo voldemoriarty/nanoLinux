@@ -21,7 +21,8 @@ export CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
 
 # check if bootloader directory exists
 # if it does, assume these commands have already been run
-if [ ! -d "$BOOTLOADERDIR/uboot" ]; then 
+if [ ! -d "$BOOTLOADERDIR/uboot" ]; then
+  echo "Bootloader directory does not exist, downloading from git"
   # create directory for uboot
   mkdir -p $BOOTLOADERDIR/uboot
 
@@ -32,6 +33,7 @@ else
 fi 
 
 # create the settings from the Qsys generated handoff
+echo "Creating BSP Settings"
 bsp-create-settings \
   --type spl \
   --bsp-dir $BOOTLOADERDIR \
