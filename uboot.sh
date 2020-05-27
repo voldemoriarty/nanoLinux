@@ -86,7 +86,7 @@ make -C $BOOTLOADERDIR/uboot -j$(nproc)
 
 # create device tree from the qsys project
 (cd $HWDIR; \
-  sopc2dts --input soc_system.sopcinfo --output $QSYS_SYSTEM.dts --type dts --bridge-removal all --clocks; \
+  sopc2dts --input soc_system.sopcinfo --output $QSYS_SYSTEM.dts --board soc_system_board_info.xml --board hps_common_board_info.xml --type dts --bridge-removal all --clocks; \
   dtc -I dts -O dtb -o $QSYS_SYSTEM.dtb $QSYS_SYSTEM.dts)
 
 # copy the executables
