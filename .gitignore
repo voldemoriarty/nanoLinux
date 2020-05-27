@@ -2,3 +2,5 @@ bootloader
 rootfs
 sdfs
 *.img
+kernel
+buildroot
