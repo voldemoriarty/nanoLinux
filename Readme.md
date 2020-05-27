@@ -1,7 +1,7 @@
 # nanoLinux
 A linux builder for the DE10 Nano. It builds the latest uBoot, Linux Kernel and a Buildroot based rootfs to be used on the DE10 Nano. The hardware design is very minimal with the ARM HPS connected only to LEDs and Switches through LWH2F bridge. You can freely modify the hardware design, the scripts will automatically configure uBoot Device Trees according to Qsys generated design files.
 
-The goal of this repo is to provide an automated environment in which Linux based designs can be made
+The goal of this repo is to provide an automated environment in which Linux based designs can be made without depending on the GHRD that is provided. To design systems from a 'clean slate' with the latest kernel and bootloader.
 
 Most of the flow is automated. The only step requiring user input modification of script variables
 
@@ -24,3 +24,24 @@ If you did not install in `/usr/bin` then you need to edit the `CROSS_COMPILE` v
 
 ## Hardware Project
 The Quartus project is in `hardware` directory. A script called `compile.sh` will compile the design. It is very minimal. The Qsys for the design is:
+
+![Qsys-System](pics/qsys.png)
+
+There are FPGA <---> HPS events. Only LWH2F bridge is enabled. All the HPS peripherals are however enabled.
+
+![HPS-Page](pics/hps.png)
+
+## Usage
+  - Create the RTL for your hardware (or use the default)
+  - Run the `compile.sh` script in the hardware directory to make `RBF`
+  - Run the `uboot.sh` script in top directory to download and build uboot. Also compiles the `u-boot.script` file. This creates a `sdfs` directory which contains the contents for the FAT partition of SDCard (`.rbf`, `u-boot.scr`, `zImage`).
+  - Run the `linux.sh` script to download and build the latest kernel and buildroot based rootfs. The default buildroot config is `buildroot.config`. Creates a `rootfs` directory which contains the contents of ext3 partition.
+  - Finally run `sdimg.sh` to build an SDCard image. Flash it with `dd`
+
+  ### Note:
+  To customize UBoot/Linux/Buildroot, after they have been downloaded/built, you can stop the script, run `make menuconfig` in the corresponding directories. After customizing, re-run the corresponding `linux/uboot.sh` file.
+
+## Demo 
+![Demo](pics/demo.gif)
+
+`40 MB` rootfs with default settings
