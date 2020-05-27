@@ -33,15 +33,24 @@ if [ ! -d "$BOOTLOADERDIR/uboot" ]; then
 
   # download uboot, don't download the history
   git clone https://github.com/altera-opensource/u-boot-socfpga --depth=1 $BOOTLOADERDIR/uboot
+
+  # checkout the latest uboot release
+  (cd $BOOTLOADERDIR/uboot; \
+    REL=$(git tag -l rel* | head -n1); \
+    echo "Building $REL"; \
+    git checkout $REL)
   
   # sanity check
   make -C $BOOTLOADERDIR/uboot distclean
 
+  # configure uboot for de10 nano
+  make -C $BOOTLOADERDIR/uboot $UBOOT_CFG 
+
   # update config to run u-boot.scr on boot
   # not sure if this is the best way to do it
   # but it gets it done
-  echo "CONFIG_USE_BOOTCOMMAND=y" >> $BOOTLOADERDIR/uboot/configs/$UBOOT_CFG 
-  echo "CONFIG_BOOTCOMMAND=\"run fatscript\"" >> $BOOTLOADERDIR/uboot/configs/$UBOOT_CFG 
+  echo "CONFIG_USE_BOOTCOMMAND=y" >> $BOOTLOADERDIR/uboot/.config 
+  echo "CONFIG_BOOTCOMMAND=\"run fatscript\"" >> $BOOTLOADERDIR/uboot/.config 
 else 
   echo "Bootloader directory exists, skipping download ..."
 fi 
@@ -67,11 +76,6 @@ bsp-create-settings \
   --preloader-settings-dir $HWDIR/$HANDOFFDIR \
   --settings $BOOTLOADERDIR/$SETTINGS
 
-# checkout the latest uboot release
-(cd $BOOTLOADERDIR/uboot; \
-  REL=$(git tag -l rel* | head -n1); \
-  echo "Building $REL"; \
-  git checkout $REL)
 
 # update the qts files
 echo "Updating QTS files for $BOARD"
@@ -82,7 +86,6 @@ $QTSFILTER \
   $BOOTLOADERDIR/uboot/board/$BOARD/qts/
 
 echo "Building uboot"
-make -C $BOOTLOADERDIR/uboot $UBOOT_CFG 
 make -C $BOOTLOADERDIR/uboot -j$(nproc)
 
 # copy the executables
