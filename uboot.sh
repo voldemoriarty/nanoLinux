@@ -1,9 +1,11 @@
 #!/bin/bash
 
+# script to download and compile the latest release or 
+# release canditate version of uboot for de10 nano
+# Automatically configures uboot with the handoff files from
+# the hardware project
 # this script is meant to be run after the hardware
-# is generated. Takes the handoff files from the qsys
-# generated files and compiles the latest release version
-# of altera socfpga uboot
+# is generated. 
 
 set -e 
 
@@ -44,6 +46,10 @@ else
   echo "Bootloader directory exists, skipping download ..."
 fi 
 
+# these directories correspond to the sdcard partitions
+# sdfs = FAT partition
+# rootfs = ext3 partition
+
 if [ ! -d "rootfs" ]; then 
   mkdir rootfs 
   touch rootfs/foo 
@@ -61,7 +67,7 @@ bsp-create-settings \
   --preloader-settings-dir $HWDIR/$HANDOFFDIR \
   --settings $BOOTLOADERDIR/$SETTINGS
 
-# do uboot specific stuff
+# checkout the latest uboot release
 (cd $BOOTLOADERDIR/uboot; \
   REL=$(git tag -l rel* | head -n1); \
   echo "Building $REL"; \
@@ -87,12 +93,12 @@ cp -v $HWDIR/output_files/$RBF sdfs
 
 # create the compiled uboot script
 ./$BOOTLOADERDIR/uboot/tools/mkimage \
- -A arm \
- -O linux \
- -T script \
- -C none \
- -a 0 \
- -e 0 \
- -n DE10-Nano-Script \
- -d u-boot.script \
- sdfs/u-boot.scr
+  -A arm \
+  -O linux \
+  -T script \
+  -C none \
+  -a 0 \
+  -e 0 \
+  -n DE10-Nano-Script \
+  -d u-boot.script \
+  sdfs/u-boot.scr
