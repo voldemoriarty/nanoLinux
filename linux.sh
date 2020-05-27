@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # script to download and compile the latest linux kernel
-# for de10 nano
+# and builtroot for de10 nano
 
 set -e 
 
@@ -10,8 +10,11 @@ KERNEL_SRC=$KERNEL/source
 KERNEL_CFG=socfpga_defconfig
 KERNEL_IMG=zImage
 SDFS=sdfs
+BROOT=buildroot
+BROOT_SRC=$BROOT/source 
 
-export CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
+TOOLCHAIN=/usr/bin/arm-linux-gnueabihf
+export CROSS_COMPILE=/usr/bin/$TOOLCHAIN-
 
 if [ ! -d "kernel" ]; then 
   echo "Kernel directory does not exist, downloading ..."
@@ -28,10 +31,28 @@ if [ ! -d "kernel" ]; then
 
   # default configuration of the kernel
   make -C $KERNEL_SRC ARCH=arm $KERNEL_CFG
-  notify-send "Using $KERNEL_CFG. To edit, run 'make menuconfig' in $KERNEL_SRC"
+  notify-send "Using $KERNEL_CFG. To edit, run 'make ARCH=arm menuconfig' in $KERNEL_SRC"
 else 
   echo "Kernel directory exists, skipping download ..."
 fi 
+
+if [ ! -d "buildroot" ]; then
+  echo "Buildroot directory does not exist, downloading ..."
+  mkdir $BROOT
+  mkdir $BROOT_SRC
+
+  git clone git://git.buildroot.net/buildroot $BROOT_SRC
+  (cd $BROOT_SRC; \
+    REL=$(git tag -l 2020.* | tail -n1); \
+    notify-send "Building Buildroot $REL"; \
+    git checkout $REL)
+
+  # this step requires user input
+  cp -v buildroot.config $BROOT_SRC
+  make -C $BROOT_SRC all -j$(nproc)
+else 
+  echo "Buildroot directory exists, skipping download ..."
+fi
 
 make -C $KERNEL_SRC ARCH=arm LOCALVERSION=$KERNEL_IMG -j$(nproc)
 notify-send "Kernel build complete"
