@@ -37,7 +37,7 @@ if [ ! -d "$BOOTLOADERDIR/uboot" ]; then
   # checkout the latest uboot release
   (cd $BOOTLOADERDIR/uboot; \
     REL=$(git tag -l rel* | head -n1); \
-    echo "Building $REL"; \
+    notify-send "Building UBoot-$REL"; \
     git checkout $REL)
   
   # sanity check
@@ -51,6 +51,7 @@ if [ ! -d "$BOOTLOADERDIR/uboot" ]; then
   # but it gets it done
   echo "CONFIG_USE_BOOTCOMMAND=y" >> $BOOTLOADERDIR/uboot/.config 
   echo "CONFIG_BOOTCOMMAND=\"run fatscript\"" >> $BOOTLOADERDIR/uboot/.config 
+  notify-send "To modify UBoot Config run 'make menuconfig' in bootloader/uboot"
 else 
   echo "Bootloader directory exists, skipping download ..."
 fi 
@@ -105,3 +106,5 @@ cp -v $HWDIR/output_files/$RBF sdfs
   -n DE10-Nano-Script \
   -d u-boot.script \
   sdfs/u-boot.scr
+
+notify-send "UBoot build done"
