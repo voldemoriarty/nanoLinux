@@ -2,6 +2,15 @@
 # in this uboot version, fpgadata variable does not exist
 # in the environment. So make it urself
 
+echo ------ ENV -------
+setenv bootimage zImage;
+setenv fdtimage soc_system.dtb;
+setenv mmcboot 'setenv bootargs mem=1024M console=ttyS0,115200 root=${mmcroot} rw rootfstype=ext3 rootwait; bootz ${kernel_addr_r} - ${fdt_addr_r}';
+setenv mmcload 'mmc rescan; ${mmcloadcmd} mmc 0:${mmcloadpart} ${kernel_addr_r} ${bootimage}; ${mmcloadcmd} mmc 0:${mmcloadpart} ${fdt_addr_r} ${fdtimage}'
+setenv mmcloadcmd fatload
+setenv mmcloadpart 1
+setenv mmcroot /dev/mmcblk0p2
+
 echo ------ Programming FPGA ------ 
 fpgadata=0x2000000
 rbf=LinuxDemo.rbf
@@ -12,3 +21,7 @@ bridge enable
 
 echo ------ Turning on LEDs ------
 mw.w $led 0x55 1  
+
+echo ------- Booting Linux -------
+run mmcload;
+run mmcboot;
