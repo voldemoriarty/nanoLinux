@@ -10,11 +10,12 @@ KERNEL_SRC=$KERNEL/source
 KERNEL_CFG=socfpga_defconfig
 KERNEL_IMG=zImage
 SDFS=sdfs
+ROOTFS=rootfs
 BROOT=buildroot
 BROOT_SRC=$BROOT/source 
 
 TOOLCHAIN=/usr/bin/arm-linux-gnueabihf
-export CROSS_COMPILE=/usr/bin/$TOOLCHAIN-
+export CROSS_COMPILE=$TOOLCHAIN-
 
 if [ ! -d "kernel" ]; then 
   echo "Kernel directory does not exist, downloading ..."
@@ -25,7 +26,7 @@ if [ ! -d "kernel" ]; then
   # the depth argument makes sure we don't download the entire history
   git clone https://github.com/altera-opensource/linux-socfpga --depth=1 $KERNEL_SRC
   (cd $KERNEL_SRC; \
-    REL=$(git tag -l rel_* | head -n1); \
+    REL=$(git tag -l rel_* | tail -n1); \
     notify-send "Building Kernel $REL"; \
     git checkout $REL)
 
@@ -58,3 +59,7 @@ notify-send "Kernel build complete. Now building Buildroot"
 cp -v $KERNEL_SRC/arch/arm/boot/$KERNEL_IMG $SDFS
 
 make -C $BROOT_SRC all -j$(nproc)
+notify-send "Buildroot build complete. Updating rootfs"
+if [ -d "$ROOTFS" ]; then rm -rf $ROOTFS; fi
+mkdir $ROOTFS 
+tar -xvf $BROOT_SRC/output/images/rootfs.tar -C $ROOTFS
