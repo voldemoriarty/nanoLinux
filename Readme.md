@@ -1,5 +1,5 @@
 # nanoLinux
-A linux builder for the DE10 Nano. It builds the latest uBoot, Linux Kernel and a Buildroot based rootfs to be used on the DE10 Nano. The hardware design is very minimal with the ARM HPS connected only to LEDs and Switches through LWH2F bridge. You can freely modify the hardware design, the scripts will automatically configure uBoot Device Trees according to Qsys generated design files.
+A linux builder for the DE10 Nano. It builds the latest uBoot, Linux Kernel and a Buildroot based rootfs to be used on the DE10 Nano. The hardware design is very minimal with the ARM HPS connected only to LEDs and Switches through LWH2F bridge. You can freely modify the hardware design, the scripts will automatically configure uBoot and Device Trees according to Qsys generated design files.
 
 The goal of this repo is to provide an automated environment in which Linux based designs can be made without depending on the GHRD that is provided. To design systems from a 'clean slate' with the latest kernel and bootloader.
 
