@@ -27,7 +27,7 @@ The Quartus project is in `hardware` directory. A script called `compile.sh` wil
 
 ![Qsys-System](pics/qsys.png)
 
-There are FPGA <---> HPS events. Only LWH2F bridge is enabled. All the HPS peripherals are however enabled.
+There are no FPGA <---> HPS events. Only LWH2F bridge is enabled. All the HPS peripherals are however enabled.
 
 ![HPS-Page](pics/hps.png)
 
