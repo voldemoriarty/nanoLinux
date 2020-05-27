@@ -49,11 +49,12 @@ if [ ! -d "buildroot" ]; then
 
   # this step requires user input
   cp -v buildroot.config $BROOT_SRC
-  make -C $BROOT_SRC all -j$(nproc)
 else 
   echo "Buildroot directory exists, skipping download ..."
 fi
 
 make -C $KERNEL_SRC ARCH=arm LOCALVERSION=$KERNEL_IMG -j$(nproc)
-notify-send "Kernel build complete"
+notify-send "Kernel build complete. Now building Buildroot"
 cp -v $KERNEL_SRC/arch/arm/boot/$KERNEL_IMG $SDFS
+
+make -C $BROOT_SRC all -j$(nproc)
