@@ -18,6 +18,7 @@ BOARD=terasic/de10-nano
 UBOOT_CFG=socfpga_de10_nano_defconfig
 BINDIR=binaries
 RBF=LinuxDemo.rbf 
+QSYS_SYSTEM=soc_system
 
 # the path of the cross compiler
 # make sure this is it
@@ -89,11 +90,17 @@ $QTSFILTER \
 echo "Building uboot"
 make -C $BOOTLOADERDIR/uboot -j$(nproc)
 
+# create device tree from the qsys project
+(cd $HWDIR; \
+  sopc2dts --input soc_system.sopcinfo --output $QSYS_SYSTEM.dts --type dts --bridge-removal all --clocks; \
+  dtc -I dts -O dtb -o $QSYS_SYSTEM.dtb $QSYS_SYSTEM.dts)
+
 # copy the executables
 cp -v $BOOTLOADERDIR/uboot/spl/u-boot-spl $BOOTLOADERDIR/$BINDIR/
 cp -v $BOOTLOADERDIR/uboot/u-boot $BOOTLOADERDIR/$BINDIR/
 cp -v $BOOTLOADERDIR/uboot/u-boot-with-spl.sfp $BOOTLOADERDIR/$BINDIR/
 cp -v $HWDIR/output_files/$RBF sdfs 
+cp -v $HWDIR/$QSYS_SYSTEM.dtb sdfs 
 
 # create the compiled uboot script
 ./$BOOTLOADERDIR/uboot/tools/mkimage \
