@@ -3,7 +3,7 @@ A linux builder for the DE10 Nano. It builds the latest uBoot, Linux Kernel and 
 
 The goal of this repo is to provide an automated environment in which Linux based designs can be made without depending on the GHRD that is provided. To design systems from a 'clean slate' with the latest kernel and bootloader.
 
-Most of the flow is automated. The only step requiring user input modification of script variables if the arm GNU toolchain is not installed in a standard path.
+Most of the flow is automated. The only step requiring user input is modification of script variables if the arm GNU toolchain is not installed in a standard path.
 
 ## PreRequisites
   - Quartus 19 (Older versions **will not work**)
