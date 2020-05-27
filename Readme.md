@@ -42,6 +42,13 @@ There are FPGA <---> HPS events. Only LWH2F bridge is enabled. All the HPS perip
   ### Note:
   To customize UBoot/Linux/Buildroot, after they have been downloaded/built, you can stop the script, run `make menuconfig` in the corresponding directories. After customizing, re-run the corresponding `linux/uboot.sh` file.
 
+## Generated Directories
+  - `bootloader`: `bsp-editor` generated files
+  - `bootloader/uboot`: UBoot sources (from altera-opensource)
+  - `kernel/source`: Linux sources (from altera-opensource)
+  - `rootfs`: ext3 partition files (uncompressed rootfs)
+  - `sdfs`: FAT partition files
+
 ## Demo 
 ![Demo](pics/demo.gif)
 
