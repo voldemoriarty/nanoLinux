@@ -9,6 +9,7 @@ KERNEL=kernel
 KERNEL_SRC=$KERNEL/source
 KERNEL_CFG=socfpga_defconfig
 KERNEL_IMG=zImage
+SDFS=sdfs
 
 export CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf-
 
@@ -34,4 +35,4 @@ fi
 
 make -C $KERNEL_SRC ARCH=arm LOCALVERSION=$KERNEL_IMG -j$(nproc)
 notify-send "Kernel build complete"
-cp -v $KERNEL_SRC/arch/arm/boot/$KERNEL_IMG .
+cp -v $KERNEL_SRC/arch/arm/boot/$KERNEL_IMG $SDFS
