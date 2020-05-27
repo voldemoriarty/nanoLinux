@@ -59,12 +59,6 @@ fi
 
 # these directories correspond to the sdcard partitions
 # sdfs = FAT partition
-# rootfs = ext3 partition
-
-if [ ! -d "rootfs" ]; then 
-  mkdir rootfs 
-  touch rootfs/foo 
-fi 
 
 if [ ! -d "sdfs" ]; then 
   mkdir sdfs 
