@@ -45,3 +45,10 @@ There are FPGA <---> HPS events. Only LWH2F bridge is enabled. All the HPS perip
 ![Demo](pics/demo.gif)
 
 `40 MB` rootfs with default settings
+
+## Porting
+Porting to other boards should be trivial. 
+  - Update the Quartus Project
+  - Replace the board `.xml` files in `hardware` directory (Look in the GHRD for these)
+  - Change the Uboot config in `uboot.sh` script
+  - The rest should remain unchangedupad
