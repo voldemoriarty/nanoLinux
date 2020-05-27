@@ -37,6 +37,7 @@ There are FPGA <---> HPS events. Only LWH2F bridge is enabled. All the HPS perip
   - Run the `uboot.sh` script in top directory to download and build uboot. Also compiles the `u-boot.script` file. This creates a `sdfs` directory which contains the contents for the FAT partition of SDCard (`.rbf`, `u-boot.scr`, `zImage`).
   - Run the `linux.sh` script to download and build the latest kernel and buildroot based rootfs. The default buildroot config is `buildroot.config`. Creates a `rootfs` directory which contains the contents of ext3 partition.
   - Finally run `sdimg.sh` to build an SDCard image. Flash it with `dd`
+  - Run the Board with the card. The user name is `root` and password is `asad`
 
   ### Note:
   To customize UBoot/Linux/Buildroot, after they have been downloaded/built, you can stop the script, run `make menuconfig` in the corresponding directories. After customizing, re-run the corresponding `linux/uboot.sh` file.
