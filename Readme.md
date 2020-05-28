@@ -70,3 +70,9 @@ Porting to other boards should be trivial.
     ```
   - Install `init` package
   - Then run `ln -s /lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@ttyS0.service` to get login prompt on serial port
+  - To get coloured prompt add the following lines after the first case statement in `.bashrc`
+
+    ```bash
+    export TERM=xterm-256color
+    export PS1="\[\033[1;38;5;196m\]\h\[\033[1;48;5;11;38;5;17m\]\u\[\033[0;32m\]\w\[\033[0m\]: "
+    ```
