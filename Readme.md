@@ -68,3 +68,5 @@ Porting to other boards should be trivial.
     ```bash
     chmod 1777 /tmp
     ```
+  - Install `init` package
+  - Then run `ln -s /lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@ttyPS0.service` to get login prompt on serial port

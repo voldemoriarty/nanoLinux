@@ -5,7 +5,7 @@
 echo ------ ENV -------
 setenv bootimage zImage;
 setenv fdtimage soc_system.dtb;
-setenv mmcboot 'setenv bootargs mem=1024M console=ttyS0,115200 root=${mmcroot} rw rootfstype=ext3 rootwait; bootz ${kernel_addr_r} - ${fdt_addr_r}';
+setenv mmcboot 'setenv bootargs mem=1024M console=ttyS0,115200 root=${mmcroot} rw rootfstype=ext4 rootwait; bootz ${kernel_addr_r} - ${fdt_addr_r}';
 setenv mmcload 'mmc rescan; ${mmcloadcmd} mmc 0:${mmcloadpart} ${kernel_addr_r} ${bootimage}; ${mmcloadcmd} mmc 0:${mmcloadpart} ${fdt_addr_r} ${fdtimage}'
 setenv mmcloadcmd fatload
 setenv mmcloadpart 1
