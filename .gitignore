@@ -4,3 +4,4 @@ sdfs
 *.img
 kernel
 buildroot
+*.tar.gz
