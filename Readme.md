@@ -1,5 +1,5 @@
 # nanoLinux
-A linux builder for the DE10 Nano. It builds the latest uBoot, Linux Kernel and a Buildroot based rootfs to be used on the DE10 Nano. The hardware design is very minimal with the ARM HPS connected only to LEDs and Switches through LWH2F bridge. You can freely modify the hardware design, the scripts will automatically configure uBoot and Device Trees according to Qsys generated design files.
+A linux builder for the DE10 Nano. It builds the latest uBoot, Linux Kernel and a Ubuntu 20.04 based rootfs to be used on the DE10 Nano. The hardware design is very minimal with the ARM HPS connected only to LEDs and Switches through LWH2F bridge. You can freely modify the hardware design, the scripts will automatically configure uBoot and Device Trees according to Qsys generated design files.
 
 The goal of this repo is to provide an automated environment in which Linux based designs can be made without depending on the GHRD that is provided. To design systems from a 'clean slate' with the latest kernel and bootloader.
 
@@ -14,6 +14,7 @@ Most of the flow is automated. The only step requiring user input is modificatio
   - ~10 GB disk space that you can allocate (the build takes 8.8 GB)
   - DE10 Nano
   - SDCard (size of card image is 720 MB)
+  - `qemu-arm-static` if you want to `chroot`
 
 ## Prep
 If you did not install in `/usr/bin` then you need to edit the `CROSS_COMPILE` variable in `uboot.sh` and `linux.sh`. To find out where your toolchain is installed run 
@@ -35,7 +36,7 @@ There are no FPGA <---> HPS events. Only LWH2F bridge is enabled. All the HPS pe
   - Create the RTL for your hardware (or use the default)
   - Run the `compile.sh` script in the hardware directory to make `RBF`
   - Run the `uboot.sh` script in top directory to download and build uboot. Also compiles the `u-boot.script` file. This creates a `sdfs` directory which contains the contents for the FAT partition of SDCard (`.rbf`, `u-boot.scr`, `zImage`).
-  - Run the `linux.sh` script to download and build the latest kernel and buildroot based rootfs. The default buildroot config is `buildroot.config`. Creates a `rootfs` directory which contains the contents of ext3 partition.
+  - Run the `linux.sh` script to download and build the latest kernel and ubuntu based rootfs. Creates a `rootfs` directory which contains the contents of ext3 partition.
   - Finally run `sdimg.sh` to build an SDCard image. Flash it with `dd`
   - Run the Board with the card. The user name is `root` and password is `asad`
 
