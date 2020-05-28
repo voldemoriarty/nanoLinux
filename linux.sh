@@ -11,8 +11,9 @@ KERNEL_CFG=socfpga_defconfig
 KERNEL_IMG=zImage
 SDFS=sdfs
 ROOTFS=rootfs
-BROOT=buildroot
-BROOT_SRC=$BROOT/source 
+
+UBUNTU_VER=20.04
+UBUNTU_TAR=ubuntu-base-$UBUNTU_VER-base-armhf.tar.gz
 
 TOOLCHAIN=/usr/bin/arm-linux-gnueabihf
 export CROSS_COMPILE=$TOOLCHAIN-
@@ -37,29 +38,14 @@ else
   echo "Kernel directory exists, skipping download ..."
 fi 
 
-if [ ! -d "buildroot" ]; then
-  echo "Buildroot directory does not exist, downloading ..."
-  mkdir $BROOT
-  mkdir $BROOT_SRC
-
-  git clone git://git.buildroot.net/buildroot $BROOT_SRC
-  (cd $BROOT_SRC; \
-    REL=$(git tag -l 2020.* | tail -n1); \
-    notify-send "Building Buildroot $REL"; \
-    git checkout $REL)
-
-  # this step requires user input
-  cp -v buildroot.config $BROOT_SRC
-else 
-  echo "Buildroot directory exists, skipping download ..."
-fi
-
 make -C $KERNEL_SRC ARCH=arm LOCALVERSION=$KERNEL_IMG -j$(nproc)
-notify-send "Kernel build complete. Now building Buildroot"
 cp -v $KERNEL_SRC/arch/arm/boot/$KERNEL_IMG $SDFS
 
-make -C $BROOT_SRC all -j$(nproc)
-notify-send "Buildroot build complete. Updating rootfs"
-if [ -d "$ROOTFS" ]; then rm -rf $ROOTFS; fi
-mkdir $ROOTFS 
-tar -xvf $BROOT_SRC/output/images/rootfs.tar -C $ROOTFS
+if [ ! -d "$ROOTFS" ]; then
+  echo "rootfs directory does not exist, downloading ubuntu base $UBUNTU_VER ..."
+  wget -O "$UBUNTU_TAR" "cdimage.ubuntu.com/ubuntu-base/releases/$UBUNTU_VER/release/$UBUNTU_TAR"
+  mkdir $ROOTFS 
+  tar -xvf "$UBUNTU_TAR" -C $ROOTFS/
+else 
+  echo "rootfs directory exists, skipping download ..."
+fi
