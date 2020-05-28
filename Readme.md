@@ -61,3 +61,10 @@ Porting to other boards should be trivial.
   - Replace the board `.xml` files in `hardware` directory (Look in the GHRD for these)
   - Change the Uboot config in `uboot.sh` script
   - The rest should remain unchangedupad
+
+## Tidbits
+  - If `apt` doesn't work in chroot with error `Couldn't create temporary file` do:
+    
+    ```bash
+    chmod 1777 /tmp
+    ```
