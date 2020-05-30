@@ -49,7 +49,7 @@ if [ ! -d "buildroot" ]; then
     git checkout $REL)
 
   # this step requires user input
-  cp -v buildroot.config $BROOT_SRC
+  cp -v buildroot.config $BROOT_SRC/.config
 else 
   echo "Buildroot directory exists, skipping download ..."
 fi
