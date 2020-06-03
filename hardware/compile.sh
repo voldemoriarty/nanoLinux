@@ -9,6 +9,8 @@
 # I have a theory: the TCL adds the assignments to .qsf file. So once the 
 # .qsf is made, no need to re run TCL. Have yet to test this
 
+set -e
+
 QSYS=soc_system.qsys
 FAMILY=CycloneV
 PART=5CSEBA6U23I7
